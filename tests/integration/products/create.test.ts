@@ -11,19 +11,30 @@ describe('POST /products', function () {
   beforeEach(function () { sinon.restore(); });
   it ('Verifica se cria um novo produto', async function () {
     const product = {
-      name: 'Martelo de Thor',
-      price: 30,
-      userId: 1,
-    };
-    const productModel: Product = {
       id: 1,
-      ...product,
+      name: 'Excalibur',
+      price: 10,
+      userId: 1
     };
-    const createProduct = sinon.stub(ProductService, 'createProduct').resolves(productModel as Product);
+    const createProduct = sinon.stub(ProductService, 'createProduct').resolves(product as Product);
     const res = await chai.request(app).post('/products').send(product);
-    expect(res).to.have.status(201);
-    expect(res.body).to.be.eql(productModel);
+
+    expect(res.status).to.equal(422);
+    expect(res.body).to.deep.equal({ message: '"price" must be a string' });
     createProduct.restore();
   });
 
+  it('Verifica se retorna erro 422 ao criar produto sem userId', async function () {
+    const product = {
+      id: 1,
+      name: 'Excalibur',
+      price: 10,
+    };
+    const createProduct = sinon.stub(ProductService, 'createProduct').throws(new Error());
+    const res = await chai.request(app).post('/products').send(product);
+
+    expect(res.status).to.equal(422);
+    expect(res.body).to.deep.equal({ message: '"price" must be a string' });
+    createProduct.restore();
+  });
 });
