@@ -2,8 +2,7 @@ import sinon from 'sinon';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../src/app';
-import ProductService from '../../../src/services/product.services';
-import ProductModel from '../../../src/database/models/product.model';
+import ProductService from '../../../src/services/product.service';
 import { Product } from '../../../src/types/Product';
 
 chai.use(chaiHttp);
@@ -26,4 +25,5 @@ describe('POST /products', function () {
     expect(res.body).to.be.eql(productModel);
     createProduct.restore();
   });
+
 });
