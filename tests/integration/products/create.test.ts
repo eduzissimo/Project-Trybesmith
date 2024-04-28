@@ -23,20 +23,6 @@ describe('POST /products', function () {
     createProduct.restore();
   });
 
-  // it('Verifica se retorna erro 422 ao criar produto sem userId', async function () {
-  //   const product = {
-  //     id: 1,
-  //     name: 'Excalibur',
-  //     price: 10,
-  //   };
-  //   const createProduct = sinon.stub(ProductService, 'createProduct').throws(new Error());
-  //   const res = await chai.request(app).post('/products').send(product);
-
-  //   expect(res.status).to.equal(422);
-  //   expect(res.body).to.deep.equal({ message: '"price" must be a string' });
-  //   createProduct.restore();
-  // });
-
   it ('Verifica se retorna erro 422 ao criar produto com userId inválido', async function () {
     const product = {
       id: 1,
