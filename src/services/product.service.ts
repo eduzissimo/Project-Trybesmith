@@ -1,15 +1,18 @@
-import ProductModel, {
-  ProductInputtableTypes } from '../database/models/product.model';
+import ProductModel from '../database/models/product.model';
 import { Product } from '../types/Product';
 
-async function createProduct(data: ProductInputtableTypes): Promise<Product> {
-  const product = await ProductModel.create(data);
-  return product.toJSON() as Product;
+async function createProduct(product: Product): Promise<Product> {
+  try {
+    const productCreated = await ProductModel.create(product);
+    return productCreated as unknown as Product;
+  } catch {
+    throw new Error('INVALID DATA');
+  }
 }
 
 async function listAllProducts(): Promise<Product[]> {
   const products = await ProductModel.findAll();
-  return products.map((product) => product.toJSON() as Product);
+  return products as unknown as Product[];
 }
 
 export default {
