@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import UserModel from '../database/models/user.model';
 import ProductModel from '../database/models/product.model';
 
@@ -18,6 +19,16 @@ async function getAllUsers(): Promise<{ username: string; productIds: number[] }
   }));
 }
 
+async function getUserByUsername(username: string): Promise<void> {
+  await UserModel.findOne({ where: { username } });
+}
+
+async function comparePasswords(password: string, hashedPassword: string): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword);
+}
+
 export default {
   getAllUsers,
+  getUserByUsername,
+  comparePasswords,
 };
