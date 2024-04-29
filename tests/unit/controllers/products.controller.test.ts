@@ -33,7 +33,7 @@ describe('ProductsController', function () {
     expect(createProduct).to.have.been.calledOnce;
   });
 
-  it ('Verifica se retorna erro 500 caso o produto não seja criado', async function () {
+  it ('Verifica se retorna erro 422 caso o produto não seja criado', async function () {
     req.body = {
       name: 'product',
       price: 10,
@@ -45,8 +45,8 @@ describe('ProductsController', function () {
     const createProduct = sinon.stub(productsServices, 'createProduct').rejects(err);
     await productsController.createProduct(req, res);
 
-    expect(res.status).to.have.been.calledWith(500);
-    expect(res.json).to.have.been.calledWith(err);
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json).to.have.been.calledWith({ message: '"userId" not found' });
     expect(createProduct).to.have.been.calledOnce;
   });
 });

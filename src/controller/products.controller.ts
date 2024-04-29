@@ -6,7 +6,7 @@ async function createProduct(req: Request, res: Response): Promise<void> {
     const product = await productServices.createProduct(req.body);
     res.status(201).json(product);
   } catch (error) {
-    res.status(500).json({ message: 'INVALID DATA' });
+    res.status(422).json({ message: '"userId" not found' });
   }
 }
 
