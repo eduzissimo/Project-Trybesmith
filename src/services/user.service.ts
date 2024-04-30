@@ -13,10 +13,20 @@ async function getAllUsers(): Promise<{ username: string; productIds: number[] }
   });
 
   return users.map((user) => ({
-    id: user.get('id') as number,
-    username: user.get('username') as string,
-    productIds: (user.get('productIds') as { id: number }[])?.map((product) => product.id) || [],
+    id: user.toJSON().id as number,
+    username: user.toJSON().username as string,
+    productIds: (user.toJSON().productIds || []).map((product: any) => product.id),
   }));
+}
+
+async function createUser(user:
+{ id: number,
+  username: string,
+  vocation: string,
+  level: number,
+  password: string,
+}): Promise<void> {
+  await UserModel.create(user);
 }
 
 async function getUserByUsername(username: string): Promise<void> {
@@ -31,4 +41,5 @@ export default {
   getAllUsers,
   getUserByUsername,
   comparePasswords,
+  createUser,
 };
